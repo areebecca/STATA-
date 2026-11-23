@@ -1,0 +1,59 @@
+//Where the file is saved
+cd:"C:\Users\rabonyo\Desktop\Sample_STATA_Training"
+//How to import the data
+import delimited C:\Users\rabonyo\Desktop\stata_training_dataset.csv
+// How to check the file we have imported
+br
+//How to check the variables imported and the data types
+describe
+//How to lable the variables
+label variable id "Respondent ID"
+label variable age "Age of respondent"
+label variable education "Education Level"
+label variable income "Monthly household income(USD)"
+label variable water_source "Main Water Source"
+label variable sanitation "Type of sanitation facility"
+label variable weight "Weight of respondent(Kg)"
+label variable height "Height of respondent(meters)"
+label variable children_u5 "Number of children under 5"
+label variable diarrhea "Children that had diarrhoea in the last 2 weeks"
+label variable sex "Respondent's gender"
+//How to label Values
+label define gender 1"Male" 2"Female"
+label values sex gender
+label define education_level 0"None" 1"Primary" 2"Secondary" 3"Tertiary"
+label values education education_level
+label define water_source1 1"Unimproved" 2"Improved"
+label values water_source water_source1
+label define sanitation1 0"No" 1"Yes"
+label values sanitation sanitation1
+label define sanitation1 0"Unimproved" 1"Improved"
+label values sanitation sanitation1
+label define diarrhea1 0"No" 1"Yes"
+label values diarrhea diarrhea1
+label define children_u51 0 "1 children" 1 "2 children" 2 "3 children" 3 "4 children" 4 "5 children"
+label values children_u5 children_u51
+// How to drop a value that was labelled already
+label drop sanitation1
+// How to generate a new variable
+generate bmi = weight/ height
+//How to check missing values
+misstable summarize
+// How to check for values
+duplicates report id
+//How to drop duplicates
+duplicates drop id,force
+ //summarize age
+ summarize age
+ //summarizing with conditions
+ sum age if sex==1
+ // Here, we have used the option “detail”. Once we use this option (detail), Stata will give
+//the detailed summary statistics (mean, SD, skewness, kurtosis, percentile, and others)
+//of the variable
+sum age,detail
+//The “prefix” is not mandatory for an analysis. The prefix is used to get the
+//results by sub-groups, such as by sex, occupation, or other variables. For example, if
+//you want to get the summary statistics of age by sex (i.e., disaggregated by males and
+//females), the prefix is needed. Then the commands would be like:
+by education, sort:sum income
+by sex, sort: sum height
